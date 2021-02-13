@@ -13,6 +13,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using evidenceKosmonautu.Database;
+using evidenceKosmonautu.Repositories;
+using evidenceKosmonautu.BusinessCore;
 
 namespace evidenceKosmonautu
 {
@@ -33,7 +35,9 @@ namespace evidenceKosmonautu
             {
                 options.UseSqlServer(Configuration.GetConnectionString("default"));
             });
-            //services.AddScoped<IGeneralRepository, GeneralRepository>();
+            
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using evidenceKosmonautu.BusinessCore;
 
 namespace evidenceKosmonautu.Models
 {
-    public class SuperheroModel
+    public class SuperheroModel : IEntity
     {
         public uint Id { get; set; }
         public string Jmeno { get; set; }
