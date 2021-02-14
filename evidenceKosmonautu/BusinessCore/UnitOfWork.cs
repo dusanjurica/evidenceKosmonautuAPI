@@ -15,25 +15,44 @@ namespace evidenceKosmonautu.BusinessCore
         private readonly IRepository<T> _repository;
         private readonly DbContext _context;
 
+        private IList<T> _added;
+        private IList<T> _modified;
+        private IList<T> _deleted;
+ 
         public UnitOfWork(IRepository<T> repository, DbContext context)
         {
             _repository = repository;
             _context = context;
+
+            _added = new List<T>();
+            _modified = new List<T>();
+            _deleted = new List<T>();
         }
 
-        public IEnumerable<T> Added { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<T> Modified { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IEnumerable<T> Removed { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public void RegisterAdded(T Entity)
+        {
+            _added.Add(Entity);
+        }
+
+        public void RegisterModified(T Entity)
+        {
+            _modified.Add(Entity);
+        }
+
+        public void RegisterDeleted(T Entity)
+        {
+            _deleted.Add(Entity);
+        }
 
         public void Commit()
         {
-            foreach(var added in Added)
+            foreach(var added in this._added)
                 _repository.Add(added);
 
-            foreach (var modified in Modified)
+            foreach (var modified in this._modified)
                 _repository.Update(modified);
 
-            foreach (var removed in Removed)
+            foreach (var removed in this._deleted)
                 _repository.Delete(removed.Id);
 
             _context.SaveChanges();

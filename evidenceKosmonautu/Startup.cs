@@ -35,9 +35,11 @@ namespace evidenceKosmonautu
             {
                 options.UseSqlServer(Configuration.GetConnectionString("default"));
             });
-            
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+            services.AddScoped<DbContext, MainContext>();
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

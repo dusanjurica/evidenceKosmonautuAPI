@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace evidenceKosmonautu.Repositories
 {
     public interface IRepository<T>
-        where T : IEntity
+        where T : class, IEntity
     {
         IEnumerable<T> Get();
         IEnumerable<T> GetAll(Func<T, bool> predicate);

@@ -8,9 +8,9 @@ namespace evidenceKosmonautu.BusinessCore
     public interface IUnitOfWork<T> : IDisposable
         where T : class, IEntity
     {
-        IEnumerable<T> Added { get; set; }
-        IEnumerable<T> Modified { get; set; }
-        IEnumerable<T> Removed { get; set; }
+        void RegisterAdded(T Entity);
+        void RegisterModified(T Entity);
+        void RegisterDeleted(T Entity);
 
         void Commit();
     }
