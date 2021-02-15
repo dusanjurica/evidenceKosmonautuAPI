@@ -1,8 +1,6 @@
 ﻿using evidenceKosmonautu.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace evidenceKosmonautu.BusinessCore
 {
@@ -18,24 +16,12 @@ namespace evidenceKosmonautu.BusinessCore
             _repository = repository;
         }
 
-        void ICrudService<T>.Create(T entity)
-        {
-            throw new NotImplementedException();
-        }
+        void ICrudService<T>.Create(T entity) => _uow.RegisterAdded(entity).Commit();
 
-        void ICrudService<T>.Delete(uint id)
-        {
-            throw new NotImplementedException();
-        }
+        IEnumerable<T> ICrudService<T>.Read(Func<T, bool> predicate) => _repository.GetAll(predicate);
 
-        IEnumerable<T> ICrudService<T>.Read(Func<T, bool> predicate)
-        {
-            return _repository.GetAll(predicate);
-        }
+        void ICrudService<T>.Update(T entity) => _uow.RegisterModified(entity).Commit();
 
-        void ICrudService<T>.Update(uint id, T entity)
-        {
-            throw new NotImplementedException();
-        }
+        void ICrudService<T>.Delete(uint id) => _uow.RegisterDeleted(id).Commit();
     }
 }

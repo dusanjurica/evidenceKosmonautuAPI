@@ -2,8 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Transactions;
 
 namespace evidenceKosmonautu.BusinessCore
 {
@@ -17,7 +16,7 @@ namespace evidenceKosmonautu.BusinessCore
 
         private IList<T> _added;
         private IList<T> _modified;
-        private IList<T> _deleted;
+        private IList<uint> _deleted;
  
         public UnitOfWork(IRepository<T> repository, DbContext context)
         {
@@ -26,36 +25,41 @@ namespace evidenceKosmonautu.BusinessCore
 
             _added = new List<T>();
             _modified = new List<T>();
-            _deleted = new List<T>();
+            _deleted = new List<uint>();
         }
 
-        public void RegisterAdded(T Entity)
+        IUnitOfWork<T> IUnitOfWork<T>.RegisterAdded(T Entity)
         {
             _added.Add(Entity);
+            return this;
         }
 
-        public void RegisterModified(T Entity)
+        IUnitOfWork<T> IUnitOfWork<T>.RegisterModified(T Entity)
         {
             _modified.Add(Entity);
+            return this;
         }
 
-        public void RegisterDeleted(T Entity)
+        IUnitOfWork<T> IUnitOfWork<T>.RegisterDeleted(uint id)
         {
-            _deleted.Add(Entity);
+            _deleted.Add(id);
+            return this;
         }
 
-        public void Commit()
+        void IUnitOfWork<T>.Commit()
         {
-            foreach(var added in this._added)
+            using var ts = new TransactionScope();
+            foreach (var added in this._added)
                 _repository.Add(added);
 
             foreach (var modified in this._modified)
                 _repository.Update(modified);
 
             foreach (var removed in this._deleted)
-                _repository.Delete(removed.Id);
+                _repository.Delete(removed);
 
             _context.SaveChanges();
+            ts.Complete();
         }
 
         protected virtual void Dispose(bool disposing)
