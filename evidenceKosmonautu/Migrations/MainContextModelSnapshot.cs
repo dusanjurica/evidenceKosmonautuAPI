@@ -20,10 +20,10 @@ namespace evidenceKosmonautu.Migrations
 
             modelBuilder.Entity("evidenceKosmonautu.Models.SuperheroModel", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Jmeno")
                         .HasColumnType("nvarchar(max)");
@@ -38,10 +38,10 @@ namespace evidenceKosmonautu.Migrations
 
             modelBuilder.Entity("evidenceKosmonautu.Models.SuperpowerModel", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Nazev")
                         .HasColumnType("nvarchar(max)");
@@ -53,44 +53,53 @@ namespace evidenceKosmonautu.Migrations
 
             modelBuilder.Entity("evidenceKosmonautu.Models.jt_superhero_superpower", b =>
                 {
-                    b.Property<long>("SuperheroId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("SuperpowerId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("SuperheroId")
+                        .HasColumnType("int");
 
-                    b.HasKey("SuperheroId", "SuperpowerId");
+                    b.Property<int>("SuperpowerId")
+                        .HasColumnType("int");
 
-                    b.ToTable("jt_superhero_superpower");
+                    b.HasKey("Id");
+
+                    b.HasIndex("SuperheroId");
+
+                    b.HasIndex("SuperpowerId");
+
+                    b.ToTable("jtHeroPower");
                 });
 
             modelBuilder.Entity("evidenceKosmonautu.Models.jt_superhero_superpower", b =>
                 {
-                    b.HasOne("evidenceKosmonautu.Models.SuperheroModel", "Superhero")
-                        .WithMany("Superpowers")
+                    b.HasOne("evidenceKosmonautu.Models.SuperheroModel", "SuperheroModel")
+                        .WithMany("jtHeroPower")
                         .HasForeignKey("SuperheroId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("evidenceKosmonautu.Models.SuperpowerModel", "Superpower")
-                        .WithMany("Superheroes")
-                        .HasForeignKey("SuperheroId")
+                    b.HasOne("evidenceKosmonautu.Models.SuperpowerModel", "SuperpowerModel")
+                        .WithMany("jtHeroPower")
+                        .HasForeignKey("SuperpowerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Superhero");
+                    b.Navigation("SuperheroModel");
 
-                    b.Navigation("Superpower");
+                    b.Navigation("SuperpowerModel");
                 });
 
             modelBuilder.Entity("evidenceKosmonautu.Models.SuperheroModel", b =>
                 {
-                    b.Navigation("Superpowers");
+                    b.Navigation("jtHeroPower");
                 });
 
             modelBuilder.Entity("evidenceKosmonautu.Models.SuperpowerModel", b =>
                 {
-                    b.Navigation("Superheroes");
+                    b.Navigation("jtHeroPower");
                 });
 #pragma warning restore 612, 618
         }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace evidenceKosmonautu.BusinessCore
+namespace evidenceKosmonautu.DTOs
 {
-    public interface IEntity
+    public interface IEntityDTO
     {
-        int Id { get; set; }
+
     }
 }

@@ -15,6 +15,8 @@ using System.Threading.Tasks;
 using evidenceKosmonautu.Database;
 using evidenceKosmonautu.Repositories;
 using evidenceKosmonautu.BusinessCore;
+using evidenceKosmonautu.Services;
+using evidenceKosmonautu.DTOs;
 
 namespace evidenceKosmonautu
 {
@@ -37,6 +39,8 @@ namespace evidenceKosmonautu
             });
 
             services.AddScoped<DbContext, MainContext>();
+            services.AddScoped<MainContext>();
+            services.AddScoped<IService<SuperheroDTO>,KosmonautService>();
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));

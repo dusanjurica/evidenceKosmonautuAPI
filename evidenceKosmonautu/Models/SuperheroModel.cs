@@ -8,11 +8,11 @@ namespace evidenceKosmonautu.Models
     public class SuperheroModel : IEntity
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public uint Id { get; set; }
+        [Required]
+        public int Id { get; set; }
         public string Jmeno { get; set; }
         public string Prijmeni { get; set; }
 
-        public virtual ICollection<jt_superhero_superpower> Superpowers { get; set; }
+        public virtual ICollection<jt_superhero_superpower> jtHeroPower { get; set; }
     }
 }

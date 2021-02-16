@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using evidenceKosmonautu.BusinessCore;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace evidenceKosmonautu.Models
 {
-    public class SuperpowerModel
+    public class SuperpowerModel : IEntity
     {
-        public uint Id { get; set; }
+        [Key]
+        [Required]
+        public int Id { get; set; }
         public string Nazev { get; set; }
 
-        public virtual ICollection<jt_superhero_superpower> Superheroes { get; set; }
+        public virtual ICollection<jt_superhero_superpower> jtHeroPower { get; set; }
     }
 }

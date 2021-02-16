@@ -10,6 +10,7 @@ namespace evidenceKosmonautu.Database
     {
         public DbSet<SuperheroModel> Superheroes { get; set; }
         public DbSet<SuperpowerModel> Superschopnosti { get; set; }
+        public DbSet<jt_superhero_superpower> jtHeroPower { get; set; }
 
         public MainContext(DbContextOptions<MainContext> options) : base(options)
         {
@@ -21,17 +22,17 @@ namespace evidenceKosmonautu.Database
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<jt_superhero_superpower>()
-                .HasKey(k => new { k.SuperheroId, k.SuperpowerId });
+                .HasKey(k => k.Id);
 
             modelBuilder.Entity<jt_superhero_superpower>()
-                .HasOne(s => s.Superhero)
-                .WithMany(s => s.Superpowers)
+                .HasOne(s => s.SuperheroModel)
+                .WithMany(s => s.jtHeroPower)
                 .HasForeignKey(f => f.SuperheroId);
 
             modelBuilder.Entity<jt_superhero_superpower>()
-                .HasOne(s => s.Superpower)
-                .WithMany(s => s.Superheroes)
-                .HasForeignKey(f => f.SuperheroId);
+                .HasOne(s => s.SuperpowerModel)
+                .WithMany(s => s.jtHeroPower)
+                .HasForeignKey(f => f.SuperpowerId);
         }
     }
 }
