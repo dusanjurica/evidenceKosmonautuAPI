@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using evidenceKosmonautu.BusinessCore;
-using evidenceKosmonautu.Repositories;
 using evidenceKosmonautu.DTOs;
-using evidenceKosmonautu.Database;
 using evidenceKosmonautu.Services;
 
 namespace evidenceKosmonautu.Controllers
