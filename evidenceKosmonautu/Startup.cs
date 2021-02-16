@@ -17,6 +17,7 @@ using evidenceKosmonautu.Repositories;
 using evidenceKosmonautu.BusinessCore;
 using evidenceKosmonautu.Services;
 using evidenceKosmonautu.DTOs;
+using Microsoft.OpenApi.Models;
 
 namespace evidenceKosmonautu
 {
@@ -32,6 +33,11 @@ namespace evidenceKosmonautu
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Techfides API", Version = "v1.0" });
+            });
+
             services.AddControllers();
             services.AddDbContext<MainContext>(options =>
             {
@@ -42,9 +48,7 @@ namespace evidenceKosmonautu
             services.AddScoped<MainContext>();
             services.AddScoped<IService<SuperheroDTO>,KosmonautService>();
             services.AddScoped<IService<SuperpowerDTO>, SuperschopnostService>();
-            services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +64,12 @@ namespace evidenceKosmonautu
             app.UseRouting();
 
             app.UseAuthorization();
-            
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "techfides API v1.0");
+            });
 
             app.UseEndpoints(endpoints =>
             {
