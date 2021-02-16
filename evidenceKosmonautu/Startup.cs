@@ -41,6 +41,7 @@ namespace evidenceKosmonautu
             services.AddScoped<DbContext, MainContext>();
             services.AddScoped<MainContext>();
             services.AddScoped<IService<SuperheroDTO>,KosmonautService>();
+            services.AddScoped<IService<SuperpowerDTO>, SuperschopnostService>();
             services.AddScoped(typeof(IUnitOfWork<>), typeof(UnitOfWork<>));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(ICrudService<>), typeof(CrudService<>));

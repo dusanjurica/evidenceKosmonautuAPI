@@ -1,55 +1,40 @@
 ﻿using evidenceKosmonautu.BusinessCore;
+using evidenceKosmonautu.DTOs;
 using evidenceKosmonautu.Models;
+using evidenceKosmonautu.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace evidenceKosmonautu.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SuperschopnostController : CrudControllerBase<SuperpowerModel>
+    public class SuperschopnostController : ControllerBase
     {
+        private readonly IService<SuperpowerDTO> _superpowerService;
 
-        public SuperschopnostController(ICrudService<SuperpowerModel> crudService) : base(crudService) { }
+        public SuperschopnostController(IService<SuperpowerDTO> superpowerService)
+        {
+            _superpowerService = superpowerService;
+        }
 
-        // GET: api/<SuperschopnostController>
         [HttpGet]
-        public IEnumerable<SuperpowerModel> Get()
-        {
-            return _crudService.Read(p => true);
-        }
+        public IEnumerable<SuperpowerDTO> Get() => _superpowerService.GetAll();
 
-        // GET api/<SuperschopnostController>/5
         [HttpGet("{id}")]
-        public IEnumerable<SuperpowerModel> Get(int id)
-        {
-            return _crudService.Read(p => p.Id == id);
-        }
+        public SuperpowerDTO Get(int id) => _superpowerService.GetById(id);
 
-        // POST api/<SuperschopnostController>
         [HttpPost]
-        public void Post([FromBody] SuperpowerModel value)
-        {
-            _crudService.Create(value);
-        }
+        public void Post([FromBody] SuperpowerDTO value) => _superpowerService.Create(value);
 
-        // PUT api/<SuperschopnostController>/5
-        [HttpPut("{id}")]
-        public void Put([FromBody] SuperpowerModel value)
-        {
-            _crudService.Update(value);
-        }
+        [HttpPut]
+        public void Put([FromBody] SuperpowerDTO value) => _superpowerService.Update(value);
 
         // DELETE api/<SuperschopnostController>/5
         [HttpDelete("{id}")]
-        public void Delete(uint id)
-        {
-            _crudService.Delete(id);
-        }
+        public void Delete(int id) => _superpowerService.Delete(id);
     }
 }

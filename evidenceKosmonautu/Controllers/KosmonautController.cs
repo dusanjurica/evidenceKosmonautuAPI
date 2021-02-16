@@ -12,7 +12,7 @@ namespace evidenceKosmonautu.Controllers
     [ApiController]
     public class KosmonautController : ControllerBase
     {
-        IService<SuperheroDTO> _kosmonautService;
+        private readonly IService<SuperheroDTO> _kosmonautService;
 
         public KosmonautController(IService<SuperheroDTO> kosmonautService)
         {

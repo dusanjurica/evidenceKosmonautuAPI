@@ -10,6 +10,7 @@ namespace evidenceKosmonautu.DTOs
         public int Id { get; set; }
         public string Nazev { get; set; }
 
+        public IList<int> SuperheroesIds { get; set; }
         public IList<string> Superheroes { get; set; }
     }
 }
